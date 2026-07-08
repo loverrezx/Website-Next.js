@@ -1,0 +1,388 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--navbar-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.navbarContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoGradient {
+  background: linear-gradient(135deg, var(--primary), var(--active-nav));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-md);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+/* Link Hover */
+.navLink:hover {
+  background-color: var(--card-border);
+  color: var(--primary);
+}
+
+/* Link Active state styling (User requested: change color from normal black/white to highlight color) */
+.navLink.active {
+  color: var(--active-nav) !important;
+  background-color: var(--primary-light);
+  font-weight: 600;
+}
+
+.linkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.navLink:hover .linkIcon {
+  transform: translateY(-1px);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.actionButton {
+  background: none;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.actionButton:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.activeBell {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Wiggle animation for Bell icon if unread messages are present */
+.wiggleBell {
+  animation: pulseNotification 2s infinite;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: #ef4444; /* Alert Red */
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid var(--background);
+}
+
+/* Notifications Popup */
+.notificationWrapper {
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 360px;
+  max-height: 480px;
+  background: var(--background);
+  border: 1px solid var(--navbar-border);
+  box-shadow: var(--shadow-premium);
+  border-radius: var(--border-radius-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: scaleIn var(--transition-fast) forwards;
+  z-index: 1010;
+}
+
+.popupHeader {
+  padding: 1rem;
+  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popupHeader h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.markReadBtn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.markReadBtn:hover {
+  text-decoration: underline;
+}
+
+.popupBody {
+  overflow-y: auto;
+  max-height: 400px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notificationItem {
+  padding: 0.75rem;
+  border-radius: var(--border-radius-sm);
+  transition: background-color var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.unreadNoti {
+  background-color: var(--primary-light);
+  border-left: 3px solid var(--primary);
+}
+
+.readNoti {
+  background-color: transparent;
+  border-left: 3px solid transparent;
+}
+
+.notificationItem:hover {
+  background-color: var(--card-border);
+}
+
+.notiHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.notiTitleArea {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+}
+
+.notiTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.notiIconSuccess {
+  color: #10b981;
+}
+
+.notiIconWarning {
+  color: #f59e0b;
+}
+
+.notiIconInfo {
+  color: #3b82f6;
+}
+
+.notiDeleteBtn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.notiDeleteBtn:hover {
+  color: #ef4444;
+}
+
+.notiDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  padding-left: 1.5rem;
+}
+
+.notiTime {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding-left: 1.5rem;
+  align-self: flex-start;
+}
+
+.emptyNotifications {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  gap: 0.5rem;
+}
+
+.emptyIcon {
+  color: var(--text-muted);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .navbarContainer {
+    padding: 0 1rem;
+  }
+
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--navbar-bg);
+    border-top: 1px solid var(--navbar-border);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    padding: 0.5rem 1rem;
+    justify-content: space-around;
+    gap: 0;
+    height: 60px;
+    z-index: 1000;
+  }
+
+  .navLink {
+    flex-direction: column;
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    gap: 0.25rem;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .navLink.active {
+    background-color: transparent;
+  }
+
+  .linkLabel {
+    font-size: 0.7rem;
+  }
+
+  body {
+    padding-bottom: 60px;
+  }
+
+  /* Compact action area */
+  .actions {
+    gap: 0.3rem;
+  }
+
+  .actionButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Contact button — icon-only pill */
+  .contactWrapper button {
+    padding: 0.4rem !important;
+    border-radius: 50% !important;
+  }
+
+  .contactLabel,
+  .contactChevron {
+    display: none;
+  }
+
+  /* Wallet — compact */
+  .walletBalance {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.78rem;
+  }
+
+  /* Auth labels — icon only */
+  .authLabel {
+    display: none;
+  }
+
+  /* Notification popup — full-width */
+  .popup {
+    position: fixed;
+    top: 70px;
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    max-height: 380px;
+  }
+}
+
+/* Very small phones — hide wallet to save space */
+@media (max-width: 400px) {
+  .walletBalance {
+    display: none;
+  }
+}

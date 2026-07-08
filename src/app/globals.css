@@ -1,0 +1,586 @@
+:root {
+  /* Font Families */
+  --font-main: var(--font-ibm-plex-sans-thai), 'IBM Plex Sans Thai', sans-serif;
+  
+  /* Color Tokens - Light Mode (Default) */
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --navbar-bg: rgba(255, 255, 255, 0.85);
+  --navbar-border: rgba(226, 232, 240, 0.8);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #e0e7ff;
+  
+  /* Active Navbar highlight color (User requested) */
+  --active-nav: #f97316; /* Vibrant Orange */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  
+  --glass-blur: 12px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-full: 9999px;
+  
+  --transition-normal: 0.25s ease;
+}
+
+/* Dark Mode Theme - Pure Black & Dark Grey (No Blue tones) */
+:root.dark, [data-theme="dark"] {
+  --background: #0a0a0a; /* Pure Dark Charcoal / Near Black */
+  --foreground: #f4f4f5; /* Off-white / Zinc 100 */
+  --navbar-bg: rgba(18, 18, 18, 0.85); /* Semi-transparent dark grey */
+  --navbar-border: rgba(39, 39, 42, 0.8); /* Zinc 800 */
+  --text-primary: #f4f4f5;
+  --text-secondary: #d4d4d8; /* Zinc 300 */
+  --text-muted: #71717a; /* Zinc 500 */
+  --primary: #a78bfa; /* Violet / Lavender 400 */
+  --primary-hover: #8b5cf6;
+  --primary-light: rgba(167, 139, 250, 0.12);
+  
+  /* Active Navbar highlight color in Dark Mode */
+  --active-nav: #fb923c; /* Bright Orange-400 */
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Apply background and color to both html and body to prevent any browser fallback issues */
+html,
+body {
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px; /* Space for sticky Navbar */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Base Components Styles */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.pageTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.pageDesc {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseNotification {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+/* Modal Overlay & Card styling */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modalCard {
+  background: var(--background);
+  border: 1px solid var(--navbar-border);
+  border-radius: var(--border-radius-md);
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+  box-shadow: var(--shadow-premium);
+  position: relative;
+  animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color var(--transition-normal);
+}
+
+.modalCloseBtn:hover {
+  color: var(--text-primary);
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Form Styling */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.formLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--navbar-border);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all var(--transition-normal);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.formInput:disabled {
+  background-color: rgba(120, 120, 120, 0.1);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.formButton {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: var(--border-radius-sm);
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.formButton:hover {
+  background-color: var(--primary-hover);
+}
+
+.formButton:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.formToggleLink {
+  font-size: 0.875rem;
+  color: var(--primary);
+  text-align: center;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.formToggleLink:hover {
+  text-decoration: underline;
+}
+
+/* Cloudflare Turnstile Mock Widget */
+.turnstileContainer {
+  border: 1px solid var(--navbar-border);
+  background-color: rgba(150, 150, 150, 0.05);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  user-select: none;
+  font-family: var(--font-main);
+}
+
+.turnstileLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.turnstileCheckbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background);
+  transition: all 0.2s;
+}
+
+.turnstileCheckbox.checked {
+  border-color: #10b981;
+  background-color: #10b981;
+  color: white;
+}
+
+.turnstileCheckbox.verifying {
+  border-color: var(--primary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: turnstileSpin 0.6s linear infinite;
+  cursor: default;
+}
+
+@keyframes turnstileSpin {
+  to { transform: rotate(360deg); }
+}
+
+.turnstileText {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.turnstileRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.turnstileLogo {
+  width: 24px;
+  height: 24px;
+  opacity: 0.8;
+}
+
+/* User Profile Navbar and Dropdown styling */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 1px solid var(--navbar-border);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all var(--transition-normal);
+  height: 40px;
+}
+
+.profileTrigger:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.profileAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.profileName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileDropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 220px;
+  background: var(--background);
+  border: 1px solid var(--navbar-border);
+  box-shadow: var(--shadow-premium);
+  border-radius: var(--border-radius-md);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 1010;
+  animation: scaleIn 0.2s forwards;
+}
+
+.profileDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color var(--transition-normal);
+}
+
+.profileDropdownItem:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.profileDropdownItem.logout {
+  color: #ef4444;
+}
+
+.profileDropdownItem.logout:hover {
+  background-color: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+}
+
+/* File Picker / Photo link section in Profile setting */
+.avatarUploadSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.avatarPreviewLarge {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary);
+}
+
+.avatarUploadInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.fileInputWrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.fileInputLabel {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border-radius: var(--border-radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.fileInputLabel:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.fileInputWrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.passwordActionArea {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.passwordActionArea input {
+  flex-grow: 1;
+}
+
+.emailCodeModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.emailCodeCard {
+  background: var(--background);
+  border: 1px solid var(--navbar-border);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow-premium);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+/* ─────────────── Responsive ─────────────── */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  .pageTitle {
+    font-size: 1.75rem;
+  }
+
+  .pageDesc {
+    font-size: 0.95rem;
+  }
+
+  .modalCard {
+    margin: 0 1rem;
+    padding: 1.5rem 1.25rem;
+    max-width: 100%;
+  }
+
+  .profileDropdown {
+    width: 200px;
+  }
+
+  /* Hide profile name — show avatar only on mobile */
+  .profileName {
+    display: none;
+  }
+
+  .avatarUploadSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1.25rem 0.85rem;
+  }
+
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .profileName {
+    max-width: 72px;
+  }
+
+  .modalCard {
+    margin: 0 0.5rem;
+    padding: 1.25rem 1rem;
+  }
+}
+
