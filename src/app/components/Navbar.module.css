@@ -58,6 +58,11 @@
   color: var(--text-primary);
   transition: all var(--transition-fast);
   position: relative;
+  white-space: nowrap;
+}
+
+.linkLabel {
+  white-space: nowrap;
 }
 
 /* Link Hover */
@@ -378,6 +383,11 @@
     width: auto;
     max-height: 380px;
   }
+}
+
+.contactLabel,
+.authLabel {
+  white-space: nowrap;
 }
 
 /* Very small phones — hide wallet to save space */

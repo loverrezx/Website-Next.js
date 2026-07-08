@@ -316,10 +316,8 @@ export default function Navbar() {
         <div className={styles.navbarContainer}>
           {/* Brand / Logo */}
           <Link href="/" className={styles.logo}>
-            {siteLogo ? (
+            {siteLogo && (
               <img src={siteLogo} alt={siteName} style={{ height: "52px", maxWidth: "160px", objectFit: "contain" }} />
-            ) : (
-              <span className={styles.logoGradient}>{siteName}</span>
             )}
           </Link>
 
